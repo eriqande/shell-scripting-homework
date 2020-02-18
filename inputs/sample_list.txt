@@ -1,0 +1,5 @@
+index sample_name library flow_cell fastq1  fastq2
+1 fish-1  October-blood HHCCXXYY  aa11_1.fg.gz  aa11_2.fg.gz
+2 fish-1  November-tissue HHFFXXYY  aa22_1.fg.gz  aa22_2.fg.gz
+3 fish-2  October-blood HHCCXXYY  bb11_1.fg.gz  bb11_2.fg.gz
+4 fish-2  November-tissue HHFFXXYY  bb22_1.fg.gz  bb22_2.fg.gz
