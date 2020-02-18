@@ -34,6 +34,11 @@ some of the outputs might be quite a lot of text.
 
 But, do preview the notebook when you are done, and commit the updated nb.html file.
 
+The goal here is to copy a large number of files that are in a few different
+directories into a single directory, then cycle over them and apply a script 
+to each.  Then print the results saved in a file, but only if the script did
+not fail.
+
 # `cd` from your home directory to the repository directory
 
 ```sh
