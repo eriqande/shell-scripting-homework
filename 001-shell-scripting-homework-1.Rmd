@@ -50,7 +50,7 @@ Get yourself an account an be sure you can login to it.
 
 ## To show that you can login to your account, take a picture (a screen grab) of your session showing your login command (so we can see that it is you!) and the welcome screen of the cluster.  Save that screen grab into `./inputs/screen-grab.png` so it renders in a picture here. (You need to replace the currently existing `./inputs/screen-grab.png`, which shows the picture for my login to Summit).
 
-![](./inputs/screen-grab.png)
+![](./inputs/desaix-summit-login.jpg)
 
 
 # Writing scripts, variables, etc.
@@ -75,7 +75,7 @@ My name is Eric C. Anderson. In my research I work on salmon
 Show what happens when you execute it by copying and pasting your
 command line and output into the fenced block below:
 ```sh
-
+My name is Matt DeSaix and I work on birds
 ```
 
 # Assigning variables from lines of output
@@ -97,12 +97,23 @@ Try running the above to see what it does and how it works. Then...
 
 ## Capture the output of the above into an array variable called SAMPARRAY
 ```sh
-
+SAMPARRAY=(`awk -v L=$i '$1==L {print; exit}' inputs/sample_list.txt`)
 ```
 
 ## Now, pick out the appropriate elements of SAMPARRAY into five new variables: SAMPLE, LIBRARY, FLOWCELL, FQ1, and FQ2.  Print those new variables, using `echo`.  Show your code and output in the following block.
 ```sh
-
+% i=4
+% SAMPLE=${SAMPARRAY[1]}
+% LIBRARY=${SAMPARRAY[2]}
+% FLOWCELL=${SAMPARRAY[3]}
+% FQ1=${SAMPARRAY[4]}
+% FQ2=${SAMPARRAY[5]}
+% echo ${SAMPLE}
+fish-2
+% echo ${FQ1}
+bb22_1.fg.gz
+% echo ${FQ2}
+bb22_2.fg.gz
 ```
 
 **Here is another approach **:   
@@ -115,12 +126,19 @@ awk -v L=$i '$1==L {print "SAMPLE=" $2 "; LIBRARY=" $3 "; FLOWCELL=" $4 "; FQ1="
 
 ## Write a block of code that evalautes the above, puts the result on the command line and then properly executes the variable assignments implied in the output.  Remember the `eval` keyword.
 ```sh
-
+% i=3
+% eval `awk -v L=$i '$1==L {print "SAMPLE=" $2 "; LIBRARY=" $3 "; FLOWCELL=" $4 "; FQ1=" $5 "; FQ2=" $6; exit}' inputs/sample_list.txt`
+% echo ${SAMPLE}
+fish-2
+% echo ${FQ1}
+bb11_1.fg.gz
+% echo ${FQ2}
+bb11_2.fg.gz
 ```
 
 ## Which approach do you find cleaner and easier to read?
 ```
-
+I find the second approach cleaner because all the variables are being assigned in the same line and makes it less likely I'll make an error when assigning them.
 ```
 
 # Grouped commands
@@ -129,17 +147,17 @@ We are interested in catenating the file `sample_list.txt` twice, with a line of
 
 ## Group those three commands using parentheses and redirect the output to a file called `paren-grouped.txt`
 ```sh
-
+(cat inputs/sample_list.txt; echo zzzzzzzzzzz; cat inputs/sample_list.txt) > paren-grouped.txt
 ```
 
 ## Group those three commands using curly braces and redirect the output to a file called `curly-grouped.txt`
 ```sh
-
+{ cat inputs/sample_list.txt; echo zzzzzzzzzzz; cat inputs/sample_list.txt; } > curly-grouped.txt
 ```
 
 ## What is the difference between these two grouping methods?
 ```
-
+Grouping commands inside curly braces means all the commands are evaluated within the current shell.  Grouping commands into parentheses makes all the commands evaluated in a separate subshell.  I don't think this made a difference for what we did since we weren't assigning variable values.
 ```
 
 # Tests and combinations of exit statuses
