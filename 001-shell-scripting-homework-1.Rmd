@@ -172,21 +172,21 @@ Read the manual page (`man test`) to see what kinds of tests are possible.
 
 ## Assign the value `./inputs/sample_list.txt` to FILE
 ```sh
-
+% FILE="./inputs/sample_list.txt"
 ```
 
 Now, `[ -f $FILE ]` returns SUCCESS if $FILE exists and is a regular file.  
 
 
 
-## Use `[ -f $FILE ]` and the `&&` to make a command line that prints "Yes, the file, $FILE, exists" if the file does exit and is a regular file. Show it in action on FILE
+## Use `[ -f $FILE ]` and the `&&` to make a command line that prints "Yes, the file, $FILE, exists" if the file does exist and is a regular file. Show it in action on FILE
 ```sh
-
+% [ -f $FILE ] && echo "Yes, the file, $FILE, exists"
 ```
 
 ## Use `||` to print "No, $FILE does not exist" when it does not.  First run it while `FILE=./inputs/sample_list.txt`, then set FILE to a path that does not exist
 ```sh
-
+% [ -f $FILE2 ] && echo "Yes, the file, $FILE, exists" || echo "No, $FILE does not exist"
 ```
 
 That is all well and good, but it would be nice to have a single
@@ -209,13 +209,13 @@ not fail.
 ## `cd` from your home directory to the repository directory if you are not already in it
 
 ```sh
-
+cd ./
 ```
 
 ## Recursively list all the contents of the `data_dump` directory
 
 ```sh
-
+ls -R ./data_dump
 ```
 Yowzers that is a lot of files.  This is the directory structure
 that Matt's Rosy Finch data came in.  These files are not actually
@@ -230,35 +230,41 @@ find data_dump | awk '/\.fq$/'
 
 ## Holy Cow! How many files is that? Count them.  Show the code and the result
 ```sh
-
+find data_dump | awk '/\.fq$/' | wc -l
 ```
 
-896     896   83680
+896 files
 
 ## Assign all those filenames into a variable called FQFILES. Use command substitution with `$( )`.
 ```sh
-
+FQFILES=(`find data_dump | awk '/\.fq$/'`)
 ```
 
 ## Cycle over the names in FQFILES (using `for`) and print just the directory name part of their names
 ```sh
-
+for i in ${FQFILES[@]};do dirname ${i}; done
 ```
 
 ## What are the names of the distinct directories these files are in, and how many are there?  Figure this out by piping the result from the above command into the `uniq` command.  Show the output of this one (should be only 3 lines)
 ```sh
-
+% for i in ${FQFILES[@]};do dirname ${i}; done | uniq
+data_dump/ROFI3/H202SC19100113/raw_data
+data_dump/ROFI2/H202SC19091397/raw_data
+data_dump/ROFI1/C202SC19050157/raw_data
 ```
 
 ## Make a directory called `all_fastqs` at the top level of the directory
 ```sh
-
+mkdir all_fastqs
 ```
 
 
 ## Cycle over the FQFILES (using `for`) and for each one print, on the same line, the full path of the file, followed by a space and then just the basename of the file. Use `echo` and command substitution with `$( )`.
-```sh
 
+Not sure if I'm using the command substitution with an array variable properly here. I had originally just used echo for the full name and basename separately.
+
+```sh
+% for i in ${FQFILES[@]};do file=($i `basename ${i}`); echo ${file[0]} ${file[1]}; done
 ```
 
 ## Do the same as the previous exercise, but add (in front of the basename of each file) the word `all_fastqs/` so that they all look like paths.  Below is an example of what the first few lines of output should look like:
@@ -269,20 +275,22 @@ data_dump/ROFI1/C202SC19050157/raw_data/s17N04030_USPD16103200-N709-AK394_H3LJCC
 ```
 Put your code here:
 ```sh
-
+% for i in ${FQFILES[@]};do file=($i `basename ${i}`); echo ${file[0]} all_fastqs/${file[1]}; done
 ```
 
 
 ## Using the code from the previous exercise, but changing `echo` to `cp`, copy each file to within the `all_fastqs` directory. 
-```sh
 
+The code took way too long, not sure why.  In RStudio terminal window it kept automatically ^C out of the process leaving only 200 files.  I then ran it through terminal and it took probably a minute.
+```sh
+% for i in ${FQFILES[@]};do file=($i `basename ${i}`); cp ${file[0]} all_fastqs/${file[1]}; done
 ```
 By the end of this, you should have 896 files in that `all_fastqs` directory.
 
 
 ## Now, define a new variable called FASTQS that holds the paths of all the `.fq` files in the directory `all_fastqs`. Do it just with path expansion
 ```sh
-
+FASTQS=`ls ./all_fastqs/*.fq`
 ```
 
 
