@@ -316,11 +316,12 @@ messages written to _stderr_ each time `random-fail.sh` failed. Also,
 you should never have tried to `cat` a `.counts` file that did not exist.
 
 ```sh
-
+for fq in ./all_fastqs/*.fq; do ./scripts/random-fail.sh ${fq} > ${fq/fq/counts} 2>> ./all_fastqs/error-messages.txt; done
 ```
 
 ## When you are done with that, print the lines in error-messages.txt
 ```sh
-
+% wc ./all_fastqs/error-messagetxt
+252    1119   14507 ./all_fastqs/error-messages.txt
 ```
 
