@@ -1,3 +1,0 @@
-Here's some dumb thing I added!
-
-Now I'm editing this dumb file in git and going to pull it back to the remote server.
