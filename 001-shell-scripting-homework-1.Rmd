@@ -186,7 +186,7 @@ Now, `[ -f $FILE ]` returns SUCCESS if $FILE exists and is a regular file.
 
 ## Use `||` to print "No, $FILE does not exist" when it does not.  First run it while `FILE=./inputs/sample_list.txt`, then set FILE to a path that does not exist
 ```sh
-% [ -f $FILE2 ] && echo "Yes, the file, $FILE, exists" || echo "No, $FILE does not exist"
+% [ -f $FILE ] && echo "Yes, the file, $FILE, exists" || echo "No, $FILE does not exist"
 ```
 
 That is all well and good, but it would be nice to have a single
@@ -195,7 +195,12 @@ when true, and also the negative ("No, $FILE does not exist") when true...
 
 ## Use if/then/else/fi to test for the existence of $FILE and then print the appropriate response if it exists or not
 ```sh
+% if [ -f $FILE ]; then echo "Yes, the file, $FILE, exists"; else echo "No, $FILE DOES NOT EXIST"; fi
+Yes, the file, ./inputs/sample_list.txt, exists
 
+% FILE2=cats
+% if [ -f $FILE2 ]; then echo "Yes, the file, $FILE2, exists"; else echo "No, $FILE2 DOES NOT EXIST"; fi
+No, cats DOES NOT EXIST
 ```
 
 
